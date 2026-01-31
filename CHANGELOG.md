@@ -4,6 +4,46 @@ All notable changes to Mission Control will be documented in this file.
 
 ## [Unreleased]
 
+### Added - Production-Ready Refactor (2026-01-31)
+
+**🔒 Security & Configuration**
+- **Configuration Management System**: New `@/lib/config` module for centralized config
+- **Settings UI**: `/settings` page for user-configurable paths and URLs
+- **Environment Variable Support**: All sensitive values now use env vars
+- **No Hardcoded Secrets**: Removed all hardcoded IP addresses, paths, and URLs from codebase
+- **Project-Specific Folders**: Each project gets its own directory in configurable projects path
+
+**🎯 Configuration Options**
+- Workspace base path (default: `~/Documents/Shared`)
+- Projects path (default: `~/Documents/Shared/projects`)
+- Mission Control URL (auto-detected or manual)
+- Default project name (customizable per project)
+
+**🔧 Fixed**
+- **Real-Time Updates**: Fixed SSE → Zustand integration - cards now move in real-time without refresh
+- **Task Updates**: API endpoints now broadcast full task objects with joined agent data
+- **Deliverables Button**: Arrow button now copies file path to clipboard
+- **Auto-Dispatch**: Uses configured Mission Control URL instead of hardcoded localhost
+
+**📚 Documentation**
+- New `PRODUCTION_SETUP.md` with comprehensive setup guide
+- Updated README with configuration section
+- Enhanced `.env.example` with all available options
+- Security notes and best practices
+
+**🏗️ Infrastructure**
+- Settings button in Header (top-right gear icon)
+- localStorage-based user preferences
+- Environment variable precedence over UI settings
+- Path expansion utilities (`~` → home directory)
+
+### Changed
+- All hardcoded paths removed (previously: `/Users/charlie`, `${HOME}`)
+- All hardcoded IPs removed (previously: `YOUR_SERVER_IP`)
+- `charlie-orchestration.ts` now uses config system
+- Task API routes broadcast full task objects with joins
+- `.env.example` expanded with all configuration options
+
 ### Added - Real-Time Integration (2026-01-31)
 - **Server-Sent Events (SSE)**: Real-time updates without page refresh
   - `/api/events/stream` endpoint for SSE connection

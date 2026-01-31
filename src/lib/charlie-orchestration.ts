@@ -11,7 +11,9 @@
  * - Verify review completion before approval
  */
 
-const MISSION_CONTROL_URL = process.env.MISSION_CONTROL_URL || 'http://YOUR_SERVER_IP:3000';
+import { getMissionControlUrl } from './config';
+
+const MISSION_CONTROL_URL = getMissionControlUrl();
 
 export interface LogActivityParams {
   taskId: string;
