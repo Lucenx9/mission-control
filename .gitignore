@@ -46,3 +46,8 @@ next-env.d.ts
 
 # local development notes/handoffs (may contain sensitive context)
 /thoughts/
+
+# Backups
+*.backup
+*.bak
+*.db.backup
