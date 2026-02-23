@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { queryOne, queryAll, run } from '@/lib/db';
 import { getOpenClawClient } from '@/lib/openclaw/client';
 import { broadcast } from '@/lib/events';
-import { getProjectsPath, getMissionControlUrl } from '@/lib/config';
+import { getMissionControlUrl } from '@/lib/config';
 import type { Task, Agent, OpenClawSession } from '@/lib/types';
 
 interface RouteParams {
@@ -139,10 +139,17 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     }[task.priority] || '⚪';
 
     // Get project path for deliverables
-    const projectsPath = getProjectsPath();
     const projectDir = task.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    const taskProjectDir = `${projectsPath}/${projectDir}`;
-    const missionControlUrl = getMissionControlUrl();
+    // Prefer public origin from the incoming request (e.g. http://localhost:4077 when
+    // Mission Control runs in Docker on port mapping), then explicit env override.
+    const missionControlUrl =
+      process.env.MISSION_CONTROL_URL ||
+      request.headers.get('origin') ||
+      getMissionControlUrl();
+    // Agent tools usually run in ~/.openclaw/workspace sandbox on host, not in the
+    // Mission Control container filesystem.
+    const agentProjectsPath = process.env.OPENCLAW_AGENT_PROJECTS_PATH || '~/.openclaw/workspace/projects';
+    const agentTaskProjectDir = `${agentProjectsPath}/${projectDir}`;
 
     const taskMessage = `${priorityEmoji} **NEW TASK ASSIGNED**
 
@@ -152,14 +159,14 @@ ${task.description ? `**Description:** ${task.description}\n` : ''}
 ${task.due_date ? `**Due:** ${task.due_date}\n` : ''}
 **Task ID:** ${task.id}
 
-**OUTPUT DIRECTORY:** ${taskProjectDir}
+**OUTPUT DIRECTORY:** ${agentTaskProjectDir}
 Create this directory and save all deliverables there.
 
 **IMPORTANT:** After completing work, you MUST call these APIs:
 1. Log activity: POST ${missionControlUrl}/api/tasks/${task.id}/activities
    Body: {"activity_type": "completed", "message": "Description of what was done"}
 2. Register deliverable: POST ${missionControlUrl}/api/tasks/${task.id}/deliverables
-   Body: {"deliverable_type": "file", "title": "File name", "path": "${taskProjectDir}/filename.html"}
+   Body: {"deliverable_type": "file", "title": "File name", "path": "${agentTaskProjectDir}/filename.html"}
 3. Update status: PATCH ${missionControlUrl}/api/tasks/${task.id}
    Body: {"status": "review"}
 
