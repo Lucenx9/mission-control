@@ -162,7 +162,7 @@ Notes:
 docker compose up -d --build
 ```
 
-Open **http://localhost:4000**.
+Open **http://localhost:4077**.
 
 ### 3. Useful commands
 
