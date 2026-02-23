@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Plus, ChevronRight, GripVertical } from 'lucide-react';
 import { useMissionControl } from '@/lib/store';
 import { triggerAutoDispatch, shouldTriggerAutoDispatch } from '@/lib/auto-dispatch';
+import { safeRandomId } from '@/lib/id';
 import type { Task, TaskStatus } from '@/lib/types';
 import { TaskModal } from './TaskModal';
 import { formatDistanceToNow } from 'date-fns';
@@ -62,7 +63,7 @@ export function MissionQueue({ workspaceId }: MissionQueueProps) {
       if (res.ok) {
         // Add event
         addEvent({
-          id: crypto.randomUUID(),
+          id: safeRandomId(),
           type: targetStatus === 'done' ? 'task_completed' : 'task_status_changed',
           task_id: draggedTask.id,
           message: `Task "${draggedTask.title}" moved to ${targetStatus}`,

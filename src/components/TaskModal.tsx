@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { X, Save, Trash2, Activity, Package, Bot, ClipboardList, Plus } from 'lucide-react';
 import { useMissionControl } from '@/lib/store';
 import { triggerAutoDispatch, shouldTriggerAutoDispatch } from '@/lib/auto-dispatch';
+import { safeRandomId } from '@/lib/id';
 import { ActivityLog } from './ActivityLog';
 import { DeliverablesList } from './DeliverablesList';
 import { SessionsList } from './SessionsList';
@@ -98,7 +99,7 @@ export function TaskModal({ task, onClose, workspaceId }: TaskModalProps) {
       } else {
         addTask(savedTask);
         addEvent({
-          id: crypto.randomUUID(),
+          id: safeRandomId(),
           type: 'task_created',
           task_id: savedTask.id,
           message: `New task: ${savedTask.title}`,
