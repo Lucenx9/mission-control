@@ -106,27 +106,27 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
     return agent.status === filter;
   });
 
-  const getStatusBadge = (status: AgentStatus) => {
-    const styles = {
-      standby: 'status-standby',
-      working: 'status-working',
-      offline: 'status-offline',
-    };
-    return styles[status] || styles.standby;
+  const getStatusColor = (status: AgentStatus) => {
+    switch (status) {
+      case 'working': return 'bg-[var(--cyber-success)]/20 text-[var(--cyber-success)] border border-[var(--cyber-success)]/30';
+      case 'standby': return 'bg-white/5 text-zinc-500 border border-white/10';
+      case 'offline': return 'bg-[var(--cyber-danger)]/20 text-[var(--cyber-danger)] border border-[var(--cyber-danger)]/30';
+      default: return 'bg-white/5 text-zinc-500 border border-white/10';
+    }
   };
 
   return (
     <aside
-      className={`bg-mc-bg-secondary border-r border-mc-border flex flex-col transition-all duration-300 ease-in-out ${
+      className={`bg-black/20 backdrop-blur-md border-r border-white/10 flex flex-col transition-all duration-300 ease-in-out ${
         isMinimized ? 'w-12' : 'w-64'
       }`}
     >
       {/* Header */}
-      <div className="p-3 border-b border-mc-border">
+      <div className="p-3 border-b border-white/10">
         <div className="flex items-center">
           <button
             onClick={toggleMinimize}
-            className="p-1 rounded hover:bg-mc-bg-tertiary text-mc-text-secondary hover:text-mc-text transition-colors"
+            className="p-1 rounded hover:bg-white/5 text-zinc-500 hover:text-zinc-300 transition-colors"
             aria-label={isMinimized ? 'Expand agents' : 'Minimize agents'}
           >
             {isMinimized ? (
@@ -137,8 +137,8 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
           </button>
           {!isMinimized && (
             <>
-              <span className="text-sm font-medium uppercase tracking-wider">Agents</span>
-              <span className="bg-mc-bg-tertiary text-mc-text-secondary text-xs px-2 py-0.5 rounded ml-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Agents</span>
+              <span className="bg-black/40 text-zinc-500 text-[10px] px-2 py-0.5 rounded ml-2">
                 {agents.length}
               </span>
             </>
@@ -149,11 +149,11 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
           <>
             {/* Active Sub-Agents Counter */}
             {activeSubAgents > 0 && (
-              <div className="mb-3 mt-3 px-3 py-2 bg-green-500/10 border border-green-500/20 rounded-lg">
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-green-400">●</span>
-                  <span className="text-mc-text">Active Sub-Agents:</span>
-                  <span className="font-bold text-green-400">{activeSubAgents}</span>
+              <div className="mb-3 mt-3 px-3 py-2 bg-[var(--cyber-success)]/10 border border-[var(--cyber-success)]/20 rounded">
+                <div className="flex items-center gap-2 text-xs">
+                  <span className="text-[var(--cyber-success)]">●</span>
+                  <span className="text-zinc-300">Active Sub-Agents:</span>
+                  <span className="font-bold text-[var(--cyber-success)]">{activeSubAgents}</span>
                 </div>
               </div>
             )}
@@ -164,10 +164,10 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
                 <button
                   key={tab}
                   onClick={() => setFilter(tab)}
-                  className={`px-3 py-1 text-xs rounded uppercase ${
+                  className={`px-3 py-1 text-[10px] rounded uppercase tracking-wider ${
                     filter === tab
-                      ? 'bg-mc-accent text-mc-bg font-medium'
-                      : 'text-mc-text-secondary hover:bg-mc-bg-tertiary'
+                      ? 'bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] border border-[var(--cyber-primary)]/30'
+                      : 'text-zinc-500 hover:bg-white/5'
                   }`}
                 >
                   {tab}
@@ -197,21 +197,21 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
                 >
                   <span className="text-2xl">{agent.avatar_emoji}</span>
                   {openclawSession && (
-                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-mc-bg-secondary" />
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[var(--cyber-success)] rounded-full border-2 border-black" />
                   )}
                   {!!agent.is_master && (
-                    <span className="absolute -top-1 -right-1 text-xs text-mc-accent-yellow">★</span>
+                    <span className="absolute -top-1 -right-1 text-xs text-[var(--cyber-warning)]">★</span>
                   )}
                   {/* Status indicator */}
                   <span
                     className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full ${
-                      agent.status === 'working' ? 'bg-mc-accent-green' :
-                      agent.status === 'standby' ? 'bg-mc-text-secondary' :
-                      'bg-gray-500'
+                      agent.status === 'working' ? 'bg-[var(--cyber-success)]' :
+                      agent.status === 'standby' ? 'bg-zinc-500' :
+                      'bg-zinc-700'
                     }`}
                   />
                   {/* Tooltip */}
-                  <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-mc-bg text-mc-text text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-mc-border">
+                  <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 px-2 py-1 bg-black/90 text-zinc-200 text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap z-50 border border-white/10">
                     {agent.name}
                   </div>
                 </button>
@@ -224,8 +224,8 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
           return (
             <div
               key={agent.id}
-              className={`w-full rounded hover:bg-mc-bg-tertiary transition-colors ${
-                selectedAgent?.id === agent.id ? 'bg-mc-bg-tertiary' : ''
+              className={`w-full rounded transition-colors ${
+                selectedAgent?.id === agent.id ? 'bg-white/5 border border-white/10' : 'hover:bg-white/5'
               }`}
             >
               <button
@@ -239,7 +239,7 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
                 <div className="text-2xl relative">
                   {agent.avatar_emoji}
                   {openclawSession && (
-                    <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-mc-bg-secondary" />
+                    <span className="absolute -bottom-1 -right-1 w-3 h-3 bg-[var(--cyber-success)] rounded-full border-2 border-black" />
                   )}
                 </div>
 
@@ -248,13 +248,13 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
                   <div className="flex items-center gap-2">
                     <span className="font-medium text-sm truncate">{agent.name}</span>
                     {!!agent.is_master && (
-                      <span className="text-xs text-mc-accent-yellow">★</span>
+                      <span className="text-xs text-[var(--cyber-warning)]">★</span>
                     )}
                   </div>
-                  <div className="text-xs text-mc-text-secondary truncate flex items-center gap-1">
+                  <div className="text-[10px] text-zinc-500 truncate flex items-center gap-1">
                     {agent.role}
                     {agent.source === 'gateway' && (
-                      <span className="text-[10px] px-1 py-0 bg-blue-500/20 text-blue-400 rounded" title="Imported from Gateway">
+                      <span className="text-[9px] px-1 py-0 bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] rounded" title="Imported from Gateway">
                         GW
                       </span>
                     )}
@@ -263,9 +263,7 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
 
                 {/* Status */}
                 <span
-                  className={`text-xs px-2 py-0.5 rounded uppercase ${getStatusBadge(
-                    agent.status
-                  )}`}
+                  className={`text-[9px] px-2 py-0.5 rounded uppercase tracking-wider ${getStatusColor(agent.status)}`}
                 >
                   {agent.status}
                 </span>
@@ -277,10 +275,10 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
                   <button
                     onClick={(e) => handleConnectToOpenClaw(agent, e)}
                     disabled={isConnecting}
-                    className={`w-full flex items-center justify-center gap-2 px-2 py-1 rounded text-xs transition-colors ${
+                    className={`w-full flex items-center justify-center gap-2 px-2 py-1 rounded text-[10px] transition-colors ${
                       openclawSession
-                        ? 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
-                        : 'bg-mc-bg text-mc-text-secondary hover:bg-mc-bg-tertiary hover:text-mc-text'
+                        ? 'bg-[var(--cyber-success)]/10 text-[var(--cyber-success)] border border-[var(--cyber-success)]/20 hover:bg-[var(--cyber-success)]/20'
+                        : 'cyber-button'
                     }`}
                   >
                     {isConnecting ? (
@@ -309,17 +307,17 @@ export function AgentsSidebar({ workspaceId }: AgentsSidebarProps) {
 
       {/* Add Agent / Discover Buttons */}
       {!isMinimized && (
-        <div className="p-3 border-t border-mc-border space-y-2">
+        <div className="p-3 border-t border-white/10 space-y-2">
           <button
             onClick={() => setShowCreateModal(true)}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-mc-bg-tertiary hover:bg-mc-border rounded text-sm text-mc-text-secondary hover:text-mc-text transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 cyber-button rounded text-xs uppercase tracking-wider"
           >
             <Plus className="w-4 h-4" />
             Add Agent
           </button>
           <button
             onClick={() => setShowDiscoverModal(true)}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 rounded text-sm text-blue-400 hover:text-blue-300 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-[var(--cyber-primary)]/10 hover:bg-[var(--cyber-primary)]/20 border border-[var(--cyber-primary)]/20 rounded text-xs text-[var(--cyber-primary)] hover:text-[var(--cyber-primary)] transition-colors uppercase tracking-wider"
           >
             <Search className="w-4 h-4" />
             Import from Gateway

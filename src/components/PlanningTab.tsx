@@ -67,7 +67,7 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
   const isPollingRef = useRef(false);
   const lastSubmissionRef = useRef<{ answer: string; otherText?: string } | null>(null);
   const currentQuestionRef = useRef<string | undefined>(undefined);
-  
+
 
 
   // Load planning state (initial load only)
@@ -384,8 +384,8 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <Loader2 className="w-6 h-6 animate-spin text-mc-accent" />
-        <span className="ml-2 text-mc-text-secondary">Loading planning state...</span>
+        <Loader2 className="w-6 h-6 animate-spin text-[var(--cyber-primary)]" />
+        <span className="ml-2 text-zinc-500 text-xs">Loading planning state...</span>
       </div>
     );
   }
@@ -395,30 +395,30 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
     return (
       <div className="p-4 space-y-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-green-400">
+          <div className="flex items-center gap-2 text-[var(--cyber-success)]">
             <Lock className="w-5 h-5" />
-            <span className="font-medium">Planning Complete</span>
+            <span className="font-medium text-xs uppercase tracking-wider">Planning Complete</span>
           </div>
           {state.dispatchError && (
             <div className="text-right">
-              <span className="text-sm text-amber-400">⚠️ Dispatch Failed</span>
+              <span className="text-xs text-[var(--cyber-warning)]">Dispatch Failed</span>
             </div>
           )}
         </div>
-        
+
         {/* Dispatch Error with Retry */}
         {state.dispatchError && (
-          <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4">
+          <div className="bg-[var(--cyber-warning)]/10 border border-[var(--cyber-warning)]/30 rounded p-4">
             <div className="flex items-start gap-2">
-              <AlertCircle className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" />
+              <AlertCircle className="w-4 h-4 text-[var(--cyber-warning)] mt-0.5 flex-shrink-0" />
               <div className="flex-1">
-                <p className="text-amber-400 text-sm font-medium mb-2">Task dispatch failed</p>
-                <p className="text-amber-300 text-xs mb-3">{state.dispatchError}</p>
+                <p className="text-[var(--cyber-warning)] text-xs font-medium mb-2">Task dispatch failed</p>
+                <p className="text-[var(--cyber-warning)]/70 text-[10px] mb-3">{state.dispatchError}</p>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={retryDispatch}
                     disabled={retryingDispatch}
-                    className="px-3 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs rounded disabled:opacity-50 flex items-center gap-1"
+                    className="px-3 py-1 bg-[var(--cyber-warning)]/20 hover:bg-[var(--cyber-warning)]/30 text-[var(--cyber-warning)] text-[10px] rounded disabled:opacity-50 flex items-center gap-1"
                   >
                     {retryingDispatch ? (
                       <>
@@ -432,7 +432,7 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
                       </>
                     )}
                   </button>
-                  <span className="text-amber-400 text-xs">
+                  <span className="text-[var(--cyber-warning)] text-[10px]">
                     This will attempt to assign the task to an agent
                   </span>
                 </div>
@@ -440,27 +440,27 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
             </div>
           </div>
         )}
-        
+
         {/* Spec Summary */}
-        <div className="bg-mc-bg border border-mc-border rounded-lg p-4">
-          <h3 className="font-medium mb-2">{state.spec.title}</h3>
-          <p className="text-sm text-mc-text-secondary mb-4">{state.spec.summary}</p>
-          
+        <div className="bg-black/30 border border-white/10 rounded p-4">
+          <h3 className="font-medium text-sm mb-2">{state.spec.title}</h3>
+          <p className="text-xs text-zinc-400 mb-4">{state.spec.summary}</p>
+
           {state.spec.deliverables?.length > 0 && (
             <div className="mb-3">
-              <h4 className="text-sm font-medium mb-1">Deliverables:</h4>
-              <ul className="list-disc list-inside text-sm text-mc-text-secondary">
+              <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Deliverables:</h4>
+              <ul className="list-disc list-inside text-xs text-zinc-500">
                 {state.spec.deliverables.map((d, i) => (
                   <li key={i}>{d}</li>
                 ))}
               </ul>
             </div>
           )}
-          
+
           {state.spec.success_criteria?.length > 0 && (
             <div>
-              <h4 className="text-sm font-medium mb-1">Success Criteria:</h4>
-              <ul className="list-disc list-inside text-sm text-mc-text-secondary">
+              <h4 className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Success Criteria:</h4>
+              <ul className="list-disc list-inside text-xs text-zinc-500">
                 {state.spec.success_criteria.map((c, i) => (
                   <li key={i}>{c}</li>
                 ))}
@@ -468,18 +468,18 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
             </div>
           )}
         </div>
-        
+
         {/* Generated Agents */}
         {state.agents && state.agents.length > 0 && (
           <div>
-            <h3 className="font-medium mb-2">Agents Created:</h3>
+            <h3 className="font-medium text-[10px] uppercase tracking-wider text-zinc-400 mb-2">Agents Created:</h3>
             <div className="space-y-2">
               {state.agents.map((agent, i) => (
-                <div key={i} className="bg-mc-bg border border-mc-border rounded-lg p-3 flex items-center gap-3">
+                <div key={i} className="bg-black/30 border border-white/10 rounded p-3 flex items-center gap-3">
                   <span className="text-2xl">{agent.avatar_emoji}</span>
                   <div>
-                    <p className="font-medium">{agent.name}</p>
-                    <p className="text-sm text-mc-text-secondary">{agent.role}</p>
+                    <p className="font-medium text-sm">{agent.name}</p>
+                    <p className="text-[10px] text-zinc-500">{agent.role}</p>
                   </div>
                 </div>
               ))}
@@ -495,24 +495,24 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
     return (
       <div className="flex flex-col items-center justify-center p-8 space-y-4">
         <div className="text-center">
-          <h3 className="text-lg font-medium mb-2">Start Planning</h3>
-          <p className="text-mc-text-secondary text-sm max-w-md">
-            I&apos;ll ask you a few questions to understand exactly what you need. 
+          <h3 className="text-sm font-bold uppercase tracking-wider mb-2">Start Planning</h3>
+          <p className="text-zinc-500 text-xs max-w-md">
+            I&apos;ll ask you a few questions to understand exactly what you need.
             All questions are multiple choice — just click to answer.
           </p>
         </div>
-        
+
         {error && (
-          <div className="flex items-center gap-2 text-red-400 text-sm">
+          <div className="flex items-center gap-2 text-[var(--cyber-danger)] text-xs">
             <AlertCircle className="w-4 h-4" />
             {error}
           </div>
         )}
-        
+
         <button
           onClick={startPlanning}
           disabled={starting}
-          className="px-6 py-3 bg-mc-accent text-mc-bg rounded-lg font-medium hover:bg-mc-accent/90 disabled:opacity-50 flex items-center gap-2"
+          className="px-6 py-3 bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] border border-[var(--cyber-primary)]/30 rounded font-medium text-xs hover:bg-[var(--cyber-primary)]/30 disabled:opacity-50 flex items-center gap-2 uppercase tracking-wider"
         >
           {starting ? (
             <>
@@ -520,7 +520,7 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
               Starting...
             </>
           ) : (
-            <>📋 Start Planning</>
+            'Start Planning'
           )}
         </button>
       </div>
@@ -531,15 +531,15 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Progress indicator with cancel button */}
-      <div className="p-4 border-b border-mc-border flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm text-mc-text-secondary">
-          <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+      <div className="p-4 border-b border-white/10 flex items-center justify-between">
+        <div className="flex items-center gap-2 text-xs text-zinc-500">
+          <div className="w-2 h-2 bg-[var(--cyber-secondary)] rounded-full animate-pulse" />
           <span>Planning in progress...</span>
         </div>
         <button
           onClick={cancelPlanning}
           disabled={canceling}
-          className="flex items-center gap-2 px-3 py-2 text-sm text-mc-accent-red hover:bg-mc-accent-red/10 rounded disabled:opacity-50"
+          className="flex items-center gap-2 px-3 py-2 text-xs text-[var(--cyber-danger)] hover:bg-[var(--cyber-danger)]/10 rounded disabled:opacity-50"
         >
           {canceling ? (
             <>
@@ -559,7 +559,7 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
       <div className="flex-1 overflow-y-auto p-6">
         {state?.currentQuestion ? (
           <div className="max-w-xl mx-auto">
-            <h3 className="text-lg font-medium mb-6">
+            <h3 className="text-sm font-medium mb-6">
               {state.currentQuestion.question}
             </h3>
 
@@ -574,24 +574,24 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
                     <button
                       onClick={() => setSelectedOption(option.label)}
                       disabled={submitting}
-                      className={`w-full flex items-center gap-3 p-4 rounded-lg border transition-all text-left ${
+                      className={`w-full flex items-center gap-3 p-4 rounded border transition-all text-left ${
                         isThisOptionSubmitting
-                          ? 'border-mc-accent bg-mc-accent/20'
+                          ? 'border-[var(--cyber-primary)] bg-[var(--cyber-primary)]/20'
                           : isSelected
-                          ? 'border-mc-accent bg-mc-accent/10'
-                          : 'border-mc-border hover:border-mc-accent/50'
+                          ? 'border-[var(--cyber-primary)]/50 bg-[var(--cyber-primary)]/10'
+                          : 'border-white/10 hover:border-[var(--cyber-primary)]/50'
                       } disabled:opacity-50`}
                     >
-                      <span className={`w-8 h-8 rounded flex items-center justify-center text-sm font-bold ${
-                        isSelected ? 'bg-mc-accent text-mc-bg' : 'bg-mc-bg-tertiary'
+                      <span className={`w-8 h-8 rounded flex items-center justify-center text-xs font-bold ${
+                        isSelected ? 'bg-[var(--cyber-primary)] text-black' : 'bg-white/5'
                       }`}>
                         {option.id.toUpperCase()}
                       </span>
-                      <span className="flex-1">{option.label}</span>
+                      <span className="flex-1 text-sm">{option.label}</span>
                       {isThisOptionSubmitting ? (
-                        <Loader2 className="w-5 h-5 text-mc-accent animate-spin" />
+                        <Loader2 className="w-5 h-5 text-[var(--cyber-primary)] animate-spin" />
                       ) : isSelected && !submitting ? (
-                        <CheckCircle className="w-5 h-5 text-mc-accent" />
+                        <CheckCircle className="w-5 h-5 text-[var(--cyber-primary)]" />
                       ) : null}
                     </button>
 
@@ -603,7 +603,7 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
                           value={otherText}
                           onChange={(e) => setOtherText(e.target.value)}
                           placeholder="Please specify..."
-                          className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm focus:outline-none focus:border-mc-accent"
+                          className="w-full cyber-input rounded px-3 py-2 text-sm"
                           disabled={submitting}
                         />
                       </div>
@@ -614,16 +614,16 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
             </div>
 
             {error && (
-              <div className="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+              <div className="mt-4 p-3 bg-[var(--cyber-danger)]/10 border border-[var(--cyber-danger)]/30 rounded">
                 <div className="flex items-start gap-2">
-                  <AlertCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
+                  <AlertCircle className="w-4 h-4 text-[var(--cyber-danger)] mt-0.5 flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="text-red-400 text-sm">{error}</p>
+                    <p className="text-[var(--cyber-danger)] text-xs">{error}</p>
                     {!isWaitingForResponse && lastSubmissionRef.current && (
                       <button
                         onClick={handleRetry}
                         disabled={submitting}
-                        className="mt-2 text-xs text-red-400 hover:text-red-300 underline disabled:opacity-50"
+                        className="mt-2 text-[10px] text-[var(--cyber-danger)] hover:text-[var(--cyber-danger)]/80 underline disabled:opacity-50"
                       >
                         {submitting ? 'Retrying...' : 'Retry'}
                       </button>
@@ -638,7 +638,7 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
               <button
                 onClick={submitAnswer}
                 disabled={!selectedOption || submitting || (selectedOption === 'Other' && !otherText.trim())}
-                className="w-full px-6 py-3 bg-mc-accent text-mc-bg rounded-lg font-medium hover:bg-mc-accent/90 disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full px-6 py-3 bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] border border-[var(--cyber-primary)]/30 rounded font-medium text-xs hover:bg-[var(--cyber-primary)]/30 disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-wider"
               >
                 {submitting ? (
                   <>
@@ -646,14 +646,14 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
                     Sending...
                   </>
                 ) : (
-                  'Continue →'
+                  'Continue'
                 )}
               </button>
 
               {/* Waiting indicator after submit */}
               {isSubmittingAnswer && !submitting && (
-                <div className="mt-4 flex items-center justify-center gap-2 text-sm text-mc-text-secondary">
-                  <Loader2 className="w-4 h-4 animate-spin text-mc-accent" />
+                <div className="mt-4 flex items-center justify-center gap-2 text-xs text-zinc-500">
+                  <Loader2 className="w-4 h-4 animate-spin text-[var(--cyber-primary)]" />
                   <span>Waiting for response...</span>
                 </div>
               )}
@@ -662,8 +662,8 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
         ) : (
           <div className="flex items-center justify-center h-full">
             <div className="text-center">
-              <Loader2 className="w-8 h-8 animate-spin text-mc-accent mx-auto mb-2" />
-              <p className="text-mc-text-secondary">
+              <Loader2 className="w-8 h-8 animate-spin text-[var(--cyber-primary)] mx-auto mb-2" />
+              <p className="text-zinc-500 text-xs">
                 {isWaitingForResponse ? 'Waiting for response...' : 'Waiting for next question...'}
               </p>
             </div>
@@ -673,13 +673,13 @@ export function PlanningTab({ taskId, onSpecLocked }: PlanningTabProps) {
 
       {/* Conversation history (collapsed by default) */}
       {state?.messages && state.messages.length > 0 && (
-        <details className="border-t border-mc-border">
-          <summary className="p-3 text-sm text-mc-text-secondary cursor-pointer hover:bg-mc-bg-tertiary">
+        <details className="border-t border-white/10">
+          <summary className="p-3 text-xs text-zinc-500 cursor-pointer hover:bg-white/5">
             View conversation ({state.messages.length} messages)
           </summary>
-          <div className="p-3 space-y-2 max-h-48 overflow-y-auto bg-mc-bg">
+          <div className="p-3 space-y-2 max-h-48 overflow-y-auto bg-black/30">
             {state.messages.map((msg, i) => (
-              <div key={i} className={`text-sm ${msg.role === 'user' ? 'text-mc-accent' : 'text-mc-text-secondary'}`}>
+              <div key={i} className={`text-xs ${msg.role === 'user' ? 'text-[var(--cyber-primary)]' : 'text-zinc-500'}`}>
                 <span className="font-medium">{msg.role === 'user' ? 'You' : 'Orchestrator'}:</span>{' '}
                 <span className="opacity-75">{msg.content.substring(0, 100)}...</span>
               </div>

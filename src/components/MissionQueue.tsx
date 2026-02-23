@@ -12,14 +12,14 @@ interface MissionQueueProps {
   workspaceId?: string;
 }
 
-const COLUMNS: { id: TaskStatus; label: string; color: string }[] = [
-  { id: 'planning', label: '📋 PLANNING', color: 'border-t-mc-accent-purple' },
-  { id: 'inbox', label: 'INBOX', color: 'border-t-mc-accent-pink' },
-  { id: 'assigned', label: 'ASSIGNED', color: 'border-t-mc-accent-yellow' },
-  { id: 'in_progress', label: 'IN PROGRESS', color: 'border-t-mc-accent' },
-  { id: 'testing', label: 'TESTING', color: 'border-t-mc-accent-cyan' },
-  { id: 'review', label: 'REVIEW', color: 'border-t-mc-accent-purple' },
-  { id: 'done', label: 'DONE', color: 'border-t-mc-accent-green' },
+const COLUMNS: { id: TaskStatus; label: string; accent: string }[] = [
+  { id: 'planning', label: 'PLANNING', accent: 'var(--cyber-secondary)' },
+  { id: 'inbox', label: 'INBOX', accent: 'var(--cyber-primary)' },
+  { id: 'assigned', label: 'ASSIGNED', accent: 'var(--cyber-warning)' },
+  { id: 'in_progress', label: 'IN PROGRESS', accent: 'var(--cyber-primary)' },
+  { id: 'testing', label: 'TESTING', accent: 'var(--cyber-success)' },
+  { id: 'review', label: 'REVIEW', accent: 'var(--cyber-secondary)' },
+  { id: 'done', label: 'DONE', accent: 'var(--cyber-success)' },
 ];
 
 export function MissionQueue({ workspaceId }: MissionQueueProps) {
@@ -81,7 +81,6 @@ export function MissionQueue({ workspaceId }: MissionQueueProps) {
 
           if (!result.success) {
             console.error('Auto-dispatch failed:', result.error);
-            // Optionally show error to user here if needed
           }
         }
       }
@@ -97,14 +96,14 @@ export function MissionQueue({ workspaceId }: MissionQueueProps) {
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="p-3 border-b border-mc-border flex items-center justify-between">
+      <div className="p-3 border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <ChevronRight className="w-4 h-4 text-mc-text-secondary" />
-          <span className="text-sm font-medium uppercase tracking-wider">Mission Queue</span>
+          <ChevronRight className="w-4 h-4 text-zinc-500" />
+          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Mission Queue</span>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 px-3 py-1.5 bg-mc-accent-pink text-mc-bg rounded text-sm font-medium hover:bg-mc-accent-pink/90"
+          className="flex items-center gap-2 px-3 py-1.5 bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] border border-[var(--cyber-primary)]/30 rounded text-xs font-medium hover:bg-[var(--cyber-primary)]/30 transition-colors uppercase tracking-wider"
         >
           <Plus className="w-4 h-4" />
           New Task
@@ -118,16 +117,17 @@ export function MissionQueue({ workspaceId }: MissionQueueProps) {
           return (
             <div
               key={column.id}
-              className={`flex-1 min-w-[220px] max-w-[300px] flex flex-col bg-mc-bg rounded-lg border border-mc-border/50 border-t-2 ${column.color}`}
+              className="flex-1 min-w-[220px] max-w-[300px] flex flex-col bg-black/20 rounded border border-white/5"
+              style={{ borderTopColor: column.accent, borderTopWidth: '2px' }}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, column.id)}
             >
               {/* Column Header */}
-              <div className="p-2 border-b border-mc-border flex items-center justify-between">
-                <span className="text-xs font-medium uppercase text-mc-text-secondary">
+              <div className="p-2 border-b border-white/5 flex items-center justify-between">
+                <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: column.accent }}>
                   {column.label}
                 </span>
-                <span className="text-xs bg-mc-bg-tertiary px-2 py-0.5 rounded text-mc-text-secondary">
+                <span className="text-[10px] bg-black/40 px-2 py-0.5 rounded text-zinc-500">
                   {columnTasks.length}
                 </span>
               </div>
@@ -168,18 +168,18 @@ interface TaskCardProps {
 }
 
 function TaskCard({ task, onDragStart, onClick, isDragging }: TaskCardProps) {
-  const priorityStyles = {
-    low: 'text-mc-text-secondary',
-    normal: 'text-mc-accent',
-    high: 'text-mc-accent-yellow',
-    urgent: 'text-mc-accent-red',
+  const priorityColors = {
+    low: 'text-zinc-500',
+    normal: 'text-[var(--cyber-primary)]',
+    high: 'text-[var(--cyber-warning)]',
+    urgent: 'text-[var(--cyber-danger)]',
   };
 
   const priorityDots = {
-    low: 'bg-mc-text-secondary/40',
-    normal: 'bg-mc-accent',
-    high: 'bg-mc-accent-yellow',
-    urgent: 'bg-mc-accent-red',
+    low: 'bg-zinc-600',
+    normal: 'bg-[var(--cyber-primary)]',
+    high: 'bg-[var(--cyber-warning)]',
+    urgent: 'bg-[var(--cyber-danger)]',
   };
 
   const isPlanning = task.status === 'planning';
@@ -189,13 +189,13 @@ function TaskCard({ task, onDragStart, onClick, isDragging }: TaskCardProps) {
       draggable
       onDragStart={(e) => onDragStart(e, task)}
       onClick={onClick}
-      className={`group bg-mc-bg-secondary border rounded-lg cursor-pointer transition-all hover:shadow-lg hover:shadow-black/20 ${
+      className={`group bg-white/5 border rounded cursor-pointer transition-all hover:border-[var(--cyber-primary)]/50 ${
         isDragging ? 'opacity-50 scale-95' : ''
-      } ${isPlanning ? 'border-purple-500/40 hover:border-purple-500' : 'border-mc-border/50 hover:border-mc-accent/40'}`}
+      } ${isPlanning ? 'border-[var(--cyber-secondary)]/40 hover:border-[var(--cyber-secondary)]' : 'border-white/10'}`}
     >
       {/* Drag handle bar */}
-      <div className="flex items-center justify-center py-1.5 border-b border-mc-border/30 opacity-0 group-hover:opacity-100 transition-opacity">
-        <GripVertical className="w-4 h-4 text-mc-text-secondary/50 cursor-grab" />
+      <div className="flex items-center justify-center py-1.5 border-b border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+        <GripVertical className="w-4 h-4 text-zinc-600 cursor-grab" />
       </div>
 
       {/* Card content */}
@@ -204,34 +204,34 @@ function TaskCard({ task, onDragStart, onClick, isDragging }: TaskCardProps) {
         <h4 className="text-sm font-medium leading-snug line-clamp-2 mb-3">
           {task.title}
         </h4>
-        
+
         {/* Planning mode indicator */}
         {isPlanning && (
-          <div className="flex items-center gap-2 mb-3 py-2 px-3 bg-purple-500/10 rounded-md border border-purple-500/20">
-            <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse flex-shrink-0" />
-            <span className="text-xs text-purple-400 font-medium">Continue planning</span>
+          <div className="flex items-center gap-2 mb-3 py-2 px-3 bg-[var(--cyber-secondary)]/10 rounded border border-[var(--cyber-secondary)]/20">
+            <div className="w-2 h-2 bg-[var(--cyber-secondary)] rounded-full animate-pulse flex-shrink-0" />
+            <span className="text-[10px] text-[var(--cyber-secondary)] font-medium uppercase tracking-wider">Continue planning</span>
           </div>
         )}
 
         {/* Assigned agent */}
         {task.assigned_agent && (
-          <div className="flex items-center gap-2 mb-3 py-1.5 px-2 bg-mc-bg-tertiary/50 rounded">
+          <div className="flex items-center gap-2 mb-3 py-1.5 px-2 bg-black/30 rounded">
             <span className="text-base">{(task.assigned_agent as unknown as { avatar_emoji: string }).avatar_emoji}</span>
-            <span className="text-xs text-mc-text-secondary truncate">
+            <span className="text-[10px] text-zinc-500 truncate">
               {(task.assigned_agent as unknown as { name: string }).name}
             </span>
           </div>
         )}
 
         {/* Footer: priority + timestamp */}
-        <div className="flex items-center justify-between pt-2 border-t border-mc-border/20">
+        <div className="flex items-center justify-between pt-2 border-t border-white/5">
           <div className="flex items-center gap-1.5">
             <div className={`w-1.5 h-1.5 rounded-full ${priorityDots[task.priority]}`} />
-            <span className={`text-xs capitalize ${priorityStyles[task.priority]}`}>
+            <span className={`text-[10px] capitalize ${priorityColors[task.priority]}`}>
               {task.priority}
             </span>
           </div>
-          <span className="text-[10px] text-mc-text-secondary/60">
+          <span className="text-[10px] text-zinc-600">
             {formatDistanceToNow(new Date(task.created_at), { addSuffix: true })}
           </span>
         </div>

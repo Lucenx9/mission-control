@@ -121,31 +121,31 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
   ] as const;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-mc-bg-secondary border border-mc-border rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="cyber-card rounded w-full max-w-2xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-mc-border">
-          <h2 className="text-lg font-semibold">
+        <div className="flex items-center justify-between p-4 border-b border-white/10">
+          <h2 className="text-sm font-bold uppercase tracking-wider">
             {agent ? `Edit ${agent.name}` : 'Create New Agent'}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-mc-bg-tertiary rounded"
+            className="p-1 hover:bg-white/5 rounded text-zinc-500 hover:text-zinc-300"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-mc-border">
+        <div className="flex border-b border-white/10">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+              className={`px-4 py-2 text-xs font-medium border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? 'border-mc-accent text-mc-accent'
-                  : 'border-transparent text-mc-text-secondary hover:text-mc-text'
+                  ? 'border-[var(--cyber-primary)] text-[var(--cyber-primary)]'
+                  : 'border-transparent text-zinc-500 hover:text-zinc-300'
               }`}
             >
               {tab.label}
@@ -159,17 +159,17 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
             <div className="space-y-4">
               {/* Avatar Selection */}
               <div>
-                <label className="block text-sm font-medium mb-2">Avatar</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-2">Avatar</label>
                 <div className="flex flex-wrap gap-2">
                   {EMOJI_OPTIONS.map((emoji) => (
                     <button
                       key={emoji}
                       type="button"
                       onClick={() => setForm({ ...form, avatar_emoji: emoji })}
-                      className={`text-2xl p-2 rounded hover:bg-mc-bg-tertiary ${
+                      className={`text-2xl p-2 rounded hover:bg-white/10 ${
                         form.avatar_emoji === emoji
-                          ? 'bg-mc-accent/20 ring-2 ring-mc-accent'
-                          : ''
+                          ? 'bg-[var(--cyber-primary)]/20 ring-2 ring-[var(--cyber-primary)]'
+                          : 'bg-white/5'
                       }`}
                     >
                       {emoji}
@@ -180,49 +180,49 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
 
               {/* Name */}
               <div>
-                <label className="block text-sm font-medium mb-1">Name</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Name</label>
                 <input
                   type="text"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
-                  className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm focus:outline-none focus:border-mc-accent"
+                  className="w-full cyber-input rounded px-3 py-2 text-sm"
                   placeholder="Agent name"
                 />
               </div>
 
               {/* Role */}
               <div>
-                <label className="block text-sm font-medium mb-1">Role</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Role</label>
                 <input
                   type="text"
                   value={form.role}
                   onChange={(e) => setForm({ ...form, role: e.target.value })}
                   required
-                  className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm focus:outline-none focus:border-mc-accent"
+                  className="w-full cyber-input rounded px-3 py-2 text-sm"
                   placeholder="e.g., Code & Automation"
                 />
               </div>
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium mb-1">Description</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Description</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   rows={2}
-                  className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm focus:outline-none focus:border-mc-accent resize-none"
+                  className="w-full cyber-input rounded px-3 py-2 text-sm resize-none"
                   placeholder="What does this agent do?"
                 />
               </div>
 
               {/* Status */}
               <div>
-                <label className="block text-sm font-medium mb-1">Status</label>
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Status</label>
                 <select
                   value={form.status}
                   onChange={(e) => setForm({ ...form, status: e.target.value as AgentStatus })}
-                  className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm focus:outline-none focus:border-mc-accent"
+                  className="w-full cyber-input rounded px-3 py-2 text-sm"
                 >
                   <option value="standby">Standby</option>
                   <option value="working">Working</option>
@@ -239,26 +239,26 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
                   onChange={(e) => setForm({ ...form, is_master: e.target.checked })}
                   className="w-4 h-4"
                 />
-                <label htmlFor="is_master" className="text-sm">
+                <label htmlFor="is_master" className="text-xs text-zinc-300">
                   Master Orchestrator (can coordinate other agents)
                 </label>
               </div>
 
               {/* Model Selection */}
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">
                   Model
                   {defaultModel && form.model === defaultModel && (
-                    <span className="ml-2 text-xs text-mc-text-secondary">(Default)</span>
+                    <span className="ml-2 text-zinc-500 normal-case tracking-normal">(Default)</span>
                   )}
                 </label>
                 {modelsLoading ? (
-                  <div className="text-sm text-mc-text-secondary">Loading available models...</div>
+                  <div className="text-xs text-zinc-500">Loading available models...</div>
                 ) : (
                   <select
                     value={form.model}
                     onChange={(e) => setForm({ ...form, model: e.target.value })}
-                    className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm focus:outline-none focus:border-mc-accent"
+                    className="w-full cyber-input rounded px-3 py-2 text-sm"
                   >
                     <option value="">-- Use Default Model --</option>
                     {availableModels.map((model) => (
@@ -268,7 +268,7 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
                     ))}
                   </select>
                 )}
-                <p className="text-xs text-mc-text-secondary mt-1">
+                <p className="text-[10px] text-zinc-500 mt-1">
                   AI model used by this agent. Leave empty to use OpenClaw default.
                 </p>
               </div>
@@ -277,14 +277,14 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
 
           {activeTab === 'soul' && (
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-2">
                 SOUL.md - Agent Personality & Identity
               </label>
               <textarea
                 value={form.soul_md}
                 onChange={(e) => setForm({ ...form, soul_md: e.target.value })}
                 rows={15}
-                className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm font-mono focus:outline-none focus:border-mc-accent resize-none"
+                className="w-full cyber-input rounded px-3 py-2 text-sm font-mono resize-none"
                 placeholder="# Agent Name&#10;&#10;Define this agent's personality, values, and communication style..."
               />
             </div>
@@ -292,14 +292,14 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
 
           {activeTab === 'user' && (
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-2">
                 USER.md - Context About the Human
               </label>
               <textarea
                 value={form.user_md}
                 onChange={(e) => setForm({ ...form, user_md: e.target.value })}
                 rows={15}
-                className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm font-mono focus:outline-none focus:border-mc-accent resize-none"
+                className="w-full cyber-input rounded px-3 py-2 text-sm font-mono resize-none"
                 placeholder="# User Context&#10;&#10;Information about the human this agent works with..."
               />
             </div>
@@ -307,14 +307,14 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
 
           {activeTab === 'agents' && (
             <div>
-              <label className="block text-sm font-medium mb-2">
+              <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-2">
                 AGENTS.md - Team Awareness
               </label>
               <textarea
                 value={form.agents_md}
                 onChange={(e) => setForm({ ...form, agents_md: e.target.value })}
                 rows={15}
-                className="w-full bg-mc-bg border border-mc-border rounded px-3 py-2 text-sm font-mono focus:outline-none focus:border-mc-accent resize-none"
+                className="w-full cyber-input rounded px-3 py-2 text-sm font-mono resize-none"
                 placeholder="# Team Roster&#10;&#10;Information about other agents this agent works with..."
               />
             </div>
@@ -322,13 +322,13 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
         </form>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-4 border-t border-mc-border">
+        <div className="flex items-center justify-between p-4 border-t border-white/10">
           <div>
             {agent && (
               <button
                 type="button"
                 onClick={handleDelete}
-                className="flex items-center gap-2 px-3 py-2 text-mc-accent-red hover:bg-mc-accent-red/10 rounded text-sm"
+                className="flex items-center gap-2 px-3 py-2 text-[var(--cyber-danger)] hover:bg-[var(--cyber-danger)]/10 rounded text-xs"
               >
                 <Trash2 className="w-4 h-4" />
                 Delete
@@ -339,14 +339,14 @@ export function AgentModal({ agent, onClose, workspaceId, onAgentCreated }: Agen
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm text-mc-text-secondary hover:text-mc-text"
+              className="px-4 py-2 text-xs text-zinc-500 hover:text-zinc-300"
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
               disabled={isSubmitting}
-              className="flex items-center gap-2 px-4 py-2 bg-mc-accent text-mc-bg rounded text-sm font-medium hover:bg-mc-accent/90 disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 bg-[var(--cyber-success)]/20 text-[var(--cyber-success)] border border-[var(--cyber-success)]/30 rounded text-xs font-medium hover:bg-[var(--cyber-success)]/30 disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
               {isSubmitting ? 'Saving...' : 'Save'}

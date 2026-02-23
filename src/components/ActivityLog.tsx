@@ -92,16 +92,16 @@ export function ActivityLog({ taskId }: ActivityLogProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-mc-text-secondary">Loading activities...</div>
+        <div className="text-zinc-500 text-xs">Loading activities...</div>
       </div>
     );
   }
 
   if (activities.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-8 text-mc-text-secondary">
+      <div className="flex flex-col items-center justify-center py-8 text-zinc-500">
         <div className="text-4xl mb-2">📝</div>
-        <p>No activity yet</p>
+        <p className="text-xs">No activity yet</p>
       </div>
     );
   }
@@ -111,7 +111,7 @@ export function ActivityLog({ taskId }: ActivityLogProps) {
       {activities.map((activity) => (
         <div
           key={activity.id}
-          className="flex gap-3 p-3 bg-mc-bg rounded-lg border border-mc-border"
+          className="flex gap-3 p-3 bg-black/20 rounded border border-white/10"
         >
           {/* Icon */}
           <div className="text-2xl flex-shrink-0">
@@ -124,28 +124,28 @@ export function ActivityLog({ taskId }: ActivityLogProps) {
             {activity.agent && (
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-sm">{activity.agent.avatar_emoji}</span>
-                <span className="text-sm font-medium text-mc-text">
+                <span className="text-sm font-medium text-zinc-200">
                   {activity.agent.name}
                 </span>
               </div>
             )}
 
             {/* Message */}
-            <p className="text-sm text-mc-text break-words">
+            <p className="text-xs text-zinc-300 break-words">
               {activity.message}
             </p>
 
             {/* Metadata */}
             {activity.metadata && (
-              <div className="mt-2 p-2 bg-mc-bg-tertiary rounded text-xs text-mc-text-secondary font-mono">
-                {typeof activity.metadata === 'string' 
-                  ? activity.metadata 
+              <div className="mt-2 p-2 bg-black/30 rounded text-[10px] text-zinc-500 font-mono">
+                {typeof activity.metadata === 'string'
+                  ? activity.metadata
                   : JSON.stringify(JSON.parse(activity.metadata), null, 2)}
               </div>
             )}
 
             {/* Timestamp */}
-            <div className="text-xs text-mc-text-secondary mt-2">
+            <div className="text-[10px] text-zinc-600 mt-2">
               {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
             </div>
           </div>

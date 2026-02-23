@@ -49,35 +49,18 @@ export function LiveFeed() {
     }
   };
 
-  const getEventColor = (type: string) => {
-    switch (type) {
-      case 'task_completed':
-        return 'text-mc-accent-green';
-      case 'task_created':
-        return 'text-mc-accent-pink';
-      case 'task_assigned':
-        return 'text-mc-accent-yellow';
-      case 'message_sent':
-        return 'text-mc-accent';
-      case 'agent_joined':
-        return 'text-mc-accent-cyan';
-      default:
-        return 'text-mc-text-secondary';
-    }
-  };
-
   return (
     <aside
-      className={`bg-mc-bg-secondary border-l border-mc-border flex flex-col transition-all duration-300 ease-in-out ${
+      className={`bg-black/20 backdrop-blur-md border-l border-white/10 flex flex-col transition-all duration-300 ease-in-out ${
         isMinimized ? 'w-12' : 'w-80'
       }`}
     >
       {/* Header */}
-      <div className="p-3 border-b border-mc-border">
+      <div className="p-3 border-b border-white/10">
         <div className="flex items-center">
           <button
             onClick={toggleMinimize}
-            className="p-1 rounded hover:bg-mc-bg-tertiary text-mc-text-secondary hover:text-mc-text transition-colors"
+            className="p-1 rounded hover:bg-white/5 text-zinc-500 hover:text-zinc-300 transition-colors"
             aria-label={isMinimized ? 'Expand feed' : 'Minimize feed'}
           >
             {isMinimized ? (
@@ -87,7 +70,7 @@ export function LiveFeed() {
             )}
           </button>
           {!isMinimized && (
-            <span className="text-sm font-medium uppercase tracking-wider">Live Feed</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Live Feed</span>
           )}
         </div>
 
@@ -98,10 +81,10 @@ export function LiveFeed() {
               <button
                 key={tab}
                 onClick={() => setFilter(tab)}
-                className={`px-3 py-1 text-xs rounded uppercase ${
+                className={`px-3 py-1 text-[10px] rounded uppercase tracking-wider ${
                   filter === tab
-                    ? 'bg-mc-accent text-mc-bg font-medium'
-                    : 'text-mc-text-secondary hover:bg-mc-bg-tertiary'
+                    ? 'bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] border border-[var(--cyber-primary)]/30'
+                    : 'text-zinc-500 hover:bg-white/5'
                 }`}
               >
                 {tab}
@@ -115,7 +98,7 @@ export function LiveFeed() {
       {!isMinimized && (
         <div className="flex-1 overflow-y-auto p-2 space-y-1">
           {filteredEvents.length === 0 ? (
-            <div className="text-center py-8 text-mc-text-secondary text-sm">
+            <div className="text-center py-8 text-zinc-500 text-xs">
               No events yet
             </div>
           ) : (
@@ -160,17 +143,17 @@ function EventItem({ event }: { event: Event }) {
     <div
       className={`p-2 rounded border-l-2 animate-slide-in ${
         isHighlight
-          ? 'bg-mc-bg-tertiary border-mc-accent-pink'
-          : 'bg-transparent border-transparent hover:bg-mc-bg-tertiary'
+          ? 'bg-white/5 border-[var(--cyber-primary)]'
+          : 'bg-transparent border-transparent hover:bg-white/5'
       }`}
     >
       <div className="flex items-start gap-2">
         <span className="text-sm">{getEventIcon(event.type)}</span>
         <div className="flex-1 min-w-0">
-          <p className={`text-sm ${isTaskEvent ? 'text-mc-accent-pink' : 'text-mc-text'}`}>
+          <p className={`text-xs ${isTaskEvent ? 'text-[var(--cyber-primary)]' : 'text-zinc-300'}`}>
             {event.message}
           </p>
-          <div className="flex items-center gap-1 mt-1 text-xs text-mc-text-secondary">
+          <div className="flex items-center gap-1 mt-1 text-[10px] text-zinc-600">
             <Clock className="w-3 h-3" />
             {formatDistanceToNow(new Date(event.created_at), { addSuffix: true })}
           </div>

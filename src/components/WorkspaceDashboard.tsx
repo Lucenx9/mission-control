@@ -30,28 +30,28 @@ export function WorkspaceDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-mc-bg flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
         <div className="text-center">
           <div className="text-4xl mb-4 animate-pulse">🦞</div>
-          <p className="text-mc-text-secondary">Loading workspaces...</p>
+          <p className="text-zinc-500 text-xs uppercase tracking-widest">Loading workspaces...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-mc-bg">
+    <div className="min-h-screen bg-[var(--background)]">
       {/* Header */}
-      <header className="border-b border-mc-border bg-mc-bg-secondary">
+      <header className="border-b border-white/10 bg-black/20 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <span className="text-2xl">🦞</span>
-              <h1 className="text-xl font-bold">Mission Control</h1>
+              <h1 className="text-sm font-bold uppercase tracking-widest">Mission Control</h1>
             </div>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-mc-accent text-mc-bg rounded-lg font-medium hover:bg-mc-accent/90"
+              className="flex items-center gap-2 px-4 py-2 bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] border border-[var(--cyber-primary)]/30 rounded font-medium text-xs hover:bg-[var(--cyber-primary)]/30 transition-colors uppercase tracking-wider"
             >
               <Plus className="w-4 h-4" />
               New Workspace
@@ -63,22 +63,22 @@ export function WorkspaceDashboard() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-2">All Workspaces</h2>
-          <p className="text-mc-text-secondary">
+          <h2 className="text-lg font-bold mb-2 uppercase tracking-wider">All Workspaces</h2>
+          <p className="text-zinc-500 text-xs">
             Select a workspace to view its mission queue and agents
           </p>
         </div>
 
         {workspaces.length === 0 ? (
           <div className="text-center py-16">
-            <Folder className="w-16 h-16 mx-auto text-mc-text-secondary mb-4" />
-            <h3 className="text-lg font-medium mb-2">No workspaces yet</h3>
-            <p className="text-mc-text-secondary mb-6">
+            <Folder className="w-16 h-16 mx-auto text-zinc-700 mb-4" />
+            <h3 className="text-sm font-medium mb-2 uppercase tracking-wider">No workspaces yet</h3>
+            <p className="text-zinc-500 text-xs mb-6">
               Create your first workspace to get started
             </p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="px-6 py-3 bg-mc-accent text-mc-bg rounded-lg font-medium hover:bg-mc-accent/90"
+              className="px-6 py-3 bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] border border-[var(--cyber-primary)]/30 rounded font-medium text-xs hover:bg-[var(--cyber-primary)]/30 uppercase tracking-wider"
             >
               Create Workspace
             </button>
@@ -86,22 +86,22 @@ export function WorkspaceDashboard() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {workspaces.map((workspace) => (
-              <WorkspaceCard 
-                key={workspace.id} 
-                workspace={workspace} 
+              <WorkspaceCard
+                key={workspace.id}
+                workspace={workspace}
                 onDelete={(id) => setWorkspaces(workspaces.filter(w => w.id !== id))}
               />
             ))}
-            
+
             {/* Add workspace card */}
             <button
               onClick={() => setShowCreateModal(true)}
-              className="border-2 border-dashed border-mc-border rounded-xl p-6 hover:border-mc-accent/50 transition-colors flex flex-col items-center justify-center gap-3 min-h-[200px]"
+              className="border border-dashed border-white/10 rounded p-6 hover:border-[var(--cyber-primary)]/50 transition-colors flex flex-col items-center justify-center gap-3 min-h-[200px]"
             >
-              <div className="w-12 h-12 rounded-full bg-mc-bg-tertiary flex items-center justify-center">
-                <Plus className="w-6 h-6 text-mc-text-secondary" />
+              <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center">
+                <Plus className="w-6 h-6 text-zinc-500" />
               </div>
-              <span className="text-mc-text-secondary font-medium">Add Workspace</span>
+              <span className="text-zinc-500 font-medium text-xs uppercase tracking-wider">Add Workspace</span>
             </button>
           </div>
         )}
@@ -109,7 +109,7 @@ export function WorkspaceDashboard() {
 
       {/* Create Modal */}
       {showCreateModal && (
-        <CreateWorkspaceModal 
+        <CreateWorkspaceModal
           onClose={() => setShowCreateModal(false)}
           onCreated={() => {
             setShowCreateModal(false);
@@ -144,19 +144,19 @@ function WorkspaceCard({ workspace, onDelete }: { workspace: WorkspaceStats; onD
       setShowDeleteConfirm(false);
     }
   };
-  
+
   return (
     <>
     <Link href={`/workspace/${workspace.slug}`}>
-      <div className="bg-mc-bg-secondary border border-mc-border rounded-xl p-6 hover:border-mc-accent/50 transition-all hover:shadow-lg cursor-pointer group relative">
+      <div className="cyber-card rounded p-6 hover:border-[var(--cyber-primary)]/50 transition-all cursor-pointer group relative">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             <span className="text-3xl">{workspace.icon}</span>
             <div>
-              <h3 className="font-semibold text-lg group-hover:text-mc-accent transition-colors">
+              <h3 className="font-semibold text-sm group-hover:text-[var(--cyber-primary)] transition-colors">
                 {workspace.name}
               </h3>
-              <p className="text-sm text-mc-text-secondary">/{workspace.slug}</p>
+              <p className="text-[10px] text-zinc-500">/{workspace.slug}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -167,18 +167,18 @@ function WorkspaceCard({ workspace, onDelete }: { workspace: WorkspaceStats; onD
                   e.stopPropagation();
                   setShowDeleteConfirm(true);
                 }}
-                className="p-1.5 rounded hover:bg-mc-accent-red/20 text-mc-text-secondary hover:text-mc-accent-red transition-colors opacity-0 group-hover:opacity-100"
+                className="p-1.5 rounded hover:bg-[var(--cyber-danger)]/20 text-zinc-500 hover:text-[var(--cyber-danger)] transition-colors opacity-0 group-hover:opacity-100"
                 title="Delete workspace"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
             )}
-            <ArrowRight className="w-5 h-5 text-mc-text-secondary group-hover:text-mc-accent transition-colors" />
+            <ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-[var(--cyber-primary)] transition-colors" />
           </div>
         </div>
 
         {/* Simple task/agent counts */}
-        <div className="flex items-center gap-4 text-sm text-mc-text-secondary mt-4">
+        <div className="flex items-center gap-4 text-xs text-zinc-500 mt-4">
           <div className="flex items-center gap-1">
             <CheckSquare className="w-4 h-4" />
             <span>{workspace.taskCounts.total} tasks</span>
@@ -193,38 +193,38 @@ function WorkspaceCard({ workspace, onDelete }: { workspace: WorkspaceStats; onD
 
     {/* Delete Confirmation Modal */}
     {showDeleteConfirm && (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowDeleteConfirm(false)}>
-        <div className="bg-mc-bg-secondary border border-mc-border rounded-xl w-full max-w-md p-6" onClick={e => e.stopPropagation()}>
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowDeleteConfirm(false)}>
+        <div className="cyber-card rounded w-full max-w-md p-6" onClick={e => e.stopPropagation()}>
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-mc-accent-red/20 rounded-full">
-              <AlertTriangle className="w-6 h-6 text-mc-accent-red" />
+            <div className="p-3 bg-[var(--cyber-danger)]/20 rounded-full">
+              <AlertTriangle className="w-6 h-6 text-[var(--cyber-danger)]" />
             </div>
             <div>
-              <h3 className="font-semibold text-lg">Delete Workspace</h3>
-              <p className="text-sm text-mc-text-secondary">This action cannot be undone</p>
+              <h3 className="font-semibold text-sm uppercase tracking-wider">Delete Workspace</h3>
+              <p className="text-[10px] text-zinc-500">This action cannot be undone</p>
             </div>
           </div>
-          
-          <p className="text-mc-text-secondary mb-6">
-            Are you sure you want to delete <strong>{workspace.name}</strong>? 
+
+          <p className="text-zinc-400 text-sm mb-6">
+            Are you sure you want to delete <strong>{workspace.name}</strong>?
             {workspace.taskCounts.total > 0 && (
-              <span className="block mt-2 text-mc-accent-red">
-                ⚠️ This workspace has {workspace.taskCounts.total} task(s). Delete them first.
+              <span className="block mt-2 text-[var(--cyber-danger)]">
+                This workspace has {workspace.taskCounts.total} task(s). Delete them first.
               </span>
             )}
           </p>
-          
+
           <div className="flex justify-end gap-3">
             <button
               onClick={() => setShowDeleteConfirm(false)}
-              className="px-4 py-2 text-mc-text-secondary hover:text-mc-text"
+              className="px-4 py-2 text-zinc-500 hover:text-zinc-300 text-xs"
             >
               Cancel
             </button>
             <button
               onClick={handleDelete}
               disabled={deleting || workspace.taskCounts.total > 0 || workspace.agentCount > 0}
-              className="px-4 py-2 bg-mc-accent-red text-white rounded-lg font-medium hover:bg-mc-accent-red/90 disabled:opacity-50"
+              className="px-4 py-2 bg-[var(--cyber-danger)]/20 text-[var(--cyber-danger)] border border-[var(--cyber-danger)]/30 rounded font-medium text-xs hover:bg-[var(--cyber-danger)]/30 disabled:opacity-50"
             >
               {deleting ? 'Deleting...' : 'Delete Workspace'}
             </button>
@@ -272,26 +272,26 @@ function CreateWorkspaceModal({ onClose, onCreated }: { onClose: () => void; onC
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-mc-bg-secondary border border-mc-border rounded-xl w-full max-w-md">
-        <div className="p-6 border-b border-mc-border">
-          <h2 className="text-lg font-semibold">Create New Workspace</h2>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="cyber-card rounded w-full max-w-md">
+        <div className="p-6 border-b border-white/10">
+          <h2 className="text-sm font-bold uppercase tracking-wider">Create New Workspace</h2>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {/* Icon selector */}
           <div>
-            <label className="block text-sm font-medium mb-2">Icon</label>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-2">Icon</label>
             <div className="flex flex-wrap gap-2">
               {icons.map((i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => setIcon(i)}
-                  className={`w-10 h-10 rounded-lg text-xl flex items-center justify-center transition-colors ${
-                    icon === i 
-                      ? 'bg-mc-accent/20 border-2 border-mc-accent' 
-                      : 'bg-mc-bg border border-mc-border hover:border-mc-accent/50'
+                  className={`w-10 h-10 rounded text-xl flex items-center justify-center transition-colors ${
+                    icon === i
+                      ? 'bg-[var(--cyber-primary)]/20 border-2 border-[var(--cyber-primary)]'
+                      : 'bg-white/5 border border-white/10 hover:border-[var(--cyber-primary)]/50'
                   }`}
                 >
                   {i}
@@ -302,33 +302,33 @@ function CreateWorkspaceModal({ onClose, onCreated }: { onClose: () => void; onC
 
           {/* Name input */}
           <div>
-            <label className="block text-sm font-medium mb-2">Name</label>
+            <label className="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-2">Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g., Acme Corp"
-              className="w-full bg-mc-bg border border-mc-border rounded-lg px-4 py-2 focus:outline-none focus:border-mc-accent"
+              className="w-full cyber-input rounded px-4 py-2 text-sm"
               autoFocus
             />
           </div>
 
           {error && (
-            <div className="text-mc-accent-red text-sm">{error}</div>
+            <div className="text-[var(--cyber-danger)] text-xs">{error}</div>
           )}
 
           <div className="flex justify-end gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-mc-text-secondary hover:text-mc-text"
+              className="px-4 py-2 text-zinc-500 hover:text-zinc-300 text-xs"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!name.trim() || isSubmitting}
-              className="px-6 py-2 bg-mc-accent text-mc-bg rounded-lg font-medium hover:bg-mc-accent/90 disabled:opacity-50"
+              className="px-6 py-2 bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] border border-[var(--cyber-primary)]/30 rounded font-medium text-xs hover:bg-[var(--cyber-primary)]/30 disabled:opacity-50 uppercase tracking-wider"
             >
               {isSubmitting ? 'Creating...' : 'Create Workspace'}
             </button>

@@ -17,7 +17,7 @@ import type { Task, Workspace } from '@/lib/types';
 export default function WorkspacePage() {
   const params = useParams();
   const slug = params.slug as string;
-  
+
   const {
     setAgents,
     setTasks,
@@ -60,13 +60,13 @@ export default function WorkspacePage() {
   // Load workspace-specific data
   useEffect(() => {
     if (!workspace) return;
-    
+
     const workspaceId = workspace.id;
 
     async function loadData() {
       try {
         debug.api('Loading workspace data...', { workspaceId });
-        
+
         // Fetch workspace-scoped data
         const [agentsRes, tasksRes, eventsRes] = await Promise.all([
           fetch(`/api/agents?workspace_id=${workspaceId}`),
@@ -170,16 +170,16 @@ export default function WorkspacePage() {
 
   if (notFound) {
     return (
-      <div className="min-h-screen bg-mc-bg flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">🔍</div>
-          <h1 className="text-2xl font-bold mb-2">Workspace Not Found</h1>
-          <p className="text-mc-text-secondary mb-6">
+          <h1 className="text-lg font-bold mb-2 uppercase tracking-wider">Workspace Not Found</h1>
+          <p className="text-zinc-500 text-xs mb-6">
             The workspace &ldquo;{slug}&rdquo; doesn&apos;t exist.
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-mc-accent text-mc-bg rounded-lg font-medium hover:bg-mc-accent/90"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--cyber-primary)]/20 text-[var(--cyber-primary)] border border-[var(--cyber-primary)]/30 rounded font-medium text-xs hover:bg-[var(--cyber-primary)]/30 uppercase tracking-wider"
           >
             <ChevronLeft className="w-4 h-4" />
             Back to Dashboard
@@ -191,17 +191,17 @@ export default function WorkspacePage() {
 
   if (isLoading || !workspace) {
     return (
-      <div className="min-h-screen bg-mc-bg flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
         <div className="text-center">
           <div className="text-4xl mb-4 animate-pulse">🦞</div>
-          <p className="text-mc-text-secondary">Loading {slug}...</p>
+          <p className="text-zinc-500 text-xs uppercase tracking-widest">Loading {slug}...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-screen flex flex-col bg-mc-bg overflow-hidden">
+    <div className="h-screen flex flex-col bg-[var(--background)] overflow-hidden">
       <Header workspace={workspace} />
 
       <div className="flex-1 flex overflow-hidden">
