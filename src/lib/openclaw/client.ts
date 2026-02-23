@@ -5,8 +5,20 @@ import type { OpenClawMessage, OpenClawSessionInfo } from '../types';
 import { loadOrCreateDeviceIdentity, signDevicePayload, buildDeviceAuthPayload, publicKeyRawBase64Url } from './device-identity';
 import { createHash } from 'crypto';
 
-const GATEWAY_URL = process.env.OPENCLAW_GATEWAY_URL || 'ws://127.0.0.1:18789';
-const GATEWAY_TOKEN = process.env.OPENCLAW_GATEWAY_TOKEN || '';
+const DEFAULT_GATEWAY_URL = 'ws://127.0.0.1:18789';
+
+function readRuntimeEnv(key: string): string | undefined {
+  const env = process.env as Record<string, string | undefined>;
+  return env[key];
+}
+
+export function getGatewayUrlFromEnv(): string {
+  return readRuntimeEnv('OPENCLAW_GATEWAY_URL') || DEFAULT_GATEWAY_URL;
+}
+
+function getGatewayTokenFromEnv(): string {
+  return readRuntimeEnv('OPENCLAW_GATEWAY_TOKEN') || '';
+}
 
 // Global deduplication cache that persists across module reloads in Next.js dev
 // Use globalThis to ensure it's shared across all instances
@@ -99,7 +111,7 @@ export class OpenClawClient extends EventEmitter {
     }
   }
 
-  constructor(private url: string = GATEWAY_URL, token: string = GATEWAY_TOKEN) {
+  constructor(private url: string = getGatewayUrlFromEnv(), token: string = getGatewayTokenFromEnv()) {
     super();
     this.token = token;
     // Prevent Node.js from throwing on unhandled 'error' events
