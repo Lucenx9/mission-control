@@ -29,7 +29,7 @@ export const CreateTaskSchema = z.object({
   description: z.string().max(10000, 'Description must be 10000 characters or less').optional(),
   status: TaskStatus.optional(),
   priority: TaskPriority.optional(),
-  assigned_agent_id: z.string().uuid().optional(),
+  assigned_agent_id: z.string().uuid().optional().nullable(),
   created_by_agent_id: z.string().uuid().optional(),
   business_id: z.string().optional(),
   workspace_id: z.string().optional(),
